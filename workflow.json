@@ -1,0 +1,277 @@
+{
+  "name": "AI Blog Post Journalist",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "id": "bc282e38-6c6a-409c-b017-34cb852ff5b7",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [
+        820,
+        420
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "model": "sonar-pro",
+        "messages": {
+          "message": [
+            {
+              "content": "Research the latest AI news that would be interesting to blog about. Select and return only new, interesting updates in the vacation rental industry for a blog aimed at a non-technical audience learn more about AI."
+            }
+          ]
+        },
+        "options": {
+          "searchRecency": "week"
+        },
+        "requestOptions": {}
+      },
+      "id": "e7e64550-2d73-4797-a0f7-58456e76642c",
+      "name": "Perplexity - Blog Topic Research Node",
+      "type": "n8n-nodes-base.perplexity",
+      "position": [
+        1040,
+        420
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "perplexityApi": {
+          "id": "a7a8dtho2rxpGaTK",
+          "name": "Perplexity account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "claude-sonnet-4-20250514",
+          "mode": "list",
+          "cachedResultName": "Claude Sonnet 4"
+        },
+        "options": {}
+      },
+      "id": "ce9a37b0-5fac-4cc6-8877-7a09d23467e1",
+      "name": "Anthropic Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "position": [
+        1260,
+        640
+      ],
+      "typeVersion": 1.3,
+      "credentials": {
+        "anthropicApi": {
+          "id": "xpqyagBIVaxKLOMc",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.choices[0].message }}",
+        "options": {
+          "systemMessage": "=You are a professional content writer specializing in creating clean, well-formatted blog articles. \n\nYour task: Create a high-quality blog post based on the research topic provided.\n\nCRITICAL FORMATTING REQUIREMENTS:\n- Write ONLY the article content - NO SEO keywords, meta descriptions, or marketing tags\n- NO phrases like \"now I'll write\", \"let me create\", or similar meta-commentary\n\nCONTENT STRUCTURE:\n1. Compelling title \n2. Engaging introduction (2-3 paragraphs)\n3. 3-4 main sections with clear ## headings\n4. Practical examples or case studies where relevant\n5. Strong conclusion with actionable takeaways\n\nWRITING STYLE:\n- Professional yet conversational tone\n- Direct, actionable language\n- Focus on value for the reader\n- 800-1200 words total\n- Use concrete examples and data when available\n\nWHAT TO AVOID:\n- SEO keyword stuffing\n- Meta descriptions or tags\n- Marketing fluff or promotional language\n- Technical jargon without explanation\n\n\nTopic to write about: {{ $json.citations }}\n\nBegin writing the article now, starting with the title and introduction.\n\n##Example\n\nThe Digital Revolution: How AI and Technology Are Reshaping the Vacation Rental Experience\n\nThe vacation rental industry has undergone a dramatic transformation, with artificial intelligence and cutting-edge technology fundamentally changing how properties are discovered, booked, managed, and experienced. What once relied on personal connections and basic online listings has evolved into a sophisticated ecosystem where algorithms predict guest preferences, smart devices enhance comfort, and data analytics optimize everything from pricing to maintenance schedules.\n\nIntelligent Discovery and Personalized Recommendations\n\nToday's AI-powered platforms use machine learning algorithms to understand user behavior, preferences, and travel patterns with remarkable precision. These systems analyze previous booking history, search queries, and demographic data to curate personalized recommendations that feel almost telepathic in their accuracy.\n\nAirbnb's algorithm considers over 100 factors when ranking properties for each user, including time of year, group size, budget constraints, and even browsing patterns. This personalization ensures travelers spend less time searching and more time discovering properties that match their vision of the perfect getaway.\n\nVisual recognition technology has revolutionized property discovery. AI can analyze photos to identify specific amenities, architectural styles, and aesthetic preferences, allowing travelers to search based on visual elements. Whether drawn to minimalist Scandinavian design or rustic farmhouse charm, AI identifies these preferences and surfaces matching properties.\n\nDynamic Pricing and Revenue Optimization\n\nAI's impact is most pronounced in pricing strategies. Traditional vacation rental pricing relied on intuition and manual adjustments. Today's revenue management systems use sophisticated algorithms that analyze hundreds of variables in real-time to optimize pricing for maximum occupancy and revenue.\n\nThese AI systems consider local events, weather forecasts, competitor pricing, historical demand patterns, and macroeconomic indicators to adjust rates dynamically. During major conferences, prices automatically increase to capture demand. If weather forecasts predict rain during high-demand dates, systems lower rates to maintain bookings.\n\nProperty owners embracing these technologies often see revenue increases of 20-40% compared to static pricing models. The AI doesn't just maximize short-term gains; it considers long-term reputation factors, ensuring pricing strategies don't damage guest satisfaction.\n\nSmart Home Integration and Enhanced Experiences\n\nInternet of Things (IoT) devices and smart home technology have transformed vacation rentals into responsive, intelligent environments that adapt to guest needs. Smart locks eliminate key exchange hassles while providing hosts with detailed access logs. Guests unlock doors with smartphone apps, and hosts grant or revoke access remotely.\n\nClimate control systems learn guest preferences and automatically adjust temperature settings for optimal comfort while maximizing energy efficiency. Smart thermostats pre-heat or pre-cool properties before arrivals and return to energy-saving modes after checkout.\n\nVoice assistants have become concierges, providing instant access to local recommendations, property information, and entertainment options. These AI-powered assistants answer questions about WiFi passwords, suggest restaurants, control lighting and music, and even place orders for delivery services.\n\nPredictive Maintenance and Property Management\n\nAI is revolutionizing property maintenance by shifting from reactive to predictive approaches. Smart sensors monitor HVAC performance, water pressure, appliance usage, and energy consumption patterns. These systems predict when equipment will likely fail and schedule maintenance before problems occur, reducing guest disruptions and costly emergency repairs.\n\nWater leak detection systems use AI to distinguish between normal usage patterns and potential leaks, immediately alerting property managers. Smart smoke detectors differentiate between cooking smoke and actual fire hazards, reducing false alarms while maintaining safety.\n\nEnhanced Communication and Customer Service\n\nChatbots powered by natural language processing have transformed guest communication, providing instant responses to common questions while freeing hosts to focus on complex issues. These AI systems handle booking inquiries, provide check-in instructions, suggest attractions, and troubleshoot simple problems.\n\nAdvanced chatbots detect guest sentiment and escalate conversations to human hosts when frustration is detected. This hybrid approach ensures immediate assistance while maintaining the personal touch that makes vacation rentals special.\n\nThe Future Landscape\n\nEmerging technologies promise dramatic changes ahead. Virtual and augmented reality enable immersive property tours that let travelers experience spaces before booking. Blockchain technology could revolutionize booking processes and identity verification while reducing fraud.\n\nAI-powered virtual interior designers might soon allow guests to customize space layouts through apps, with smart furniture responding to preferences. Predictive analytics could become so sophisticated that properties automatically stock preferred items and configure spaces based on guest profiles.\n\nConclusion\n\nThe intersection of AI and vacation rentals represents a fundamental reimagining of hospitality. By leveraging data, automation, and intelligent systems, the industry creates more personalized, efficient, and enjoyable experiences for travelers while providing property owners with powerful optimization tools.\n\nAs these technologies evolve, vacation rental experiences will become increasingly seamless and intuitive. The most successful properties will embrace these innovations while maintaining the human warmth and authentic experiences that originally drew travelers to vacation rentals."
+        }
+      },
+      "id": "2ac602fb-7cde-4cae-971d-c374ae429b1e",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        1292,
+        420
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Perplexity - Blog Topic Research Node').item.json.id }}"
+      },
+      "id": "9f7883ed-c94d-4012-a7ab-df12d9b874ca",
+      "name": "Simple Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "position": [
+        1380,
+        640
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "model": "sonar-pro",
+        "messages": {
+          "message": [
+            {
+              "content": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('message0_Text', ``, 'string') }}"
+            }
+          ]
+        },
+        "simplify": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Simplify_Output', ``, 'boolean') }}",
+        "options": {},
+        "requestOptions": {}
+      },
+      "id": "e48b32af-4126-4afa-8d5b-680b95128b07",
+      "name": "Perplexity Search Tool",
+      "type": "n8n-nodes-base.perplexityTool",
+      "position": [
+        1500,
+        640
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "perplexityApi": {
+          "id": "a7a8dtho2rxpGaTK",
+          "name": "Perplexity account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "folderId": "1oWFXFn_9yBuG3DLqsAsn863Tl7lZIy5W",
+        "title": "={{ $('Perplexity - Blog Topic Research Node').item.json.search_results[2].title }}"
+      },
+      "id": "28023ef7-b506-4a24-94aa-d238dd934fb7",
+      "name": "Create a document",
+      "type": "n8n-nodes-base.googleDocs",
+      "position": [
+        1700,
+        420
+      ],
+      "typeVersion": 2,
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "11unYNlO96fDxQJW",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $json.id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ $('AI Agent').item.json.output }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1920,
+        420
+      ],
+      "id": "0be89e3b-4b98-4c09-ae62-53f46520ec7b",
+      "name": "Update a document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "11unYNlO96fDxQJW",
+          "name": "Google Docs account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Create a document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Perplexity - Blog Topic Research Node",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Perplexity Search Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Perplexity - Blog Topic Research Node": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a document": {
+      "main": [
+        [
+          {
+            "node": "Update a document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "cc178ec8-749e-40a8-bbb6-273eee56acfb",
+  "meta": {
+    "templateId": "5202",
+    "templateCredsSetupCompleted": true,
+    "instanceId": "97320dcb467cb5c2cea1bd9a8911382570c60877bdbe1a87e19328042db75e3c"
+  },
+  "id": "R6pCyaINaXIjmpsF",
+  "tags": []
+}
